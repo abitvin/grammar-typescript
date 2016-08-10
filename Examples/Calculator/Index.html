@@ -1,0 +1,59 @@
+<!doctype html>
+<html>
+<head>
+    <title>Calculator</title>
+</head>
+
+<body>
+    <input type="text" id="inp-expr" placeholder="Expression">
+    <div id="answer"></div>
+    <script src="../../Extern/Rule.js"></script>
+    <script src="../../Source/Grammer.js"></script>
+    <script>
+
+        "use strict";
+
+        const g = new Abitvin.Grammer();
+
+        g.declare("add", "base", "div", "mul", "neg", "sub");
+        g.add("digit", "[0-9]");
+        g.add("alpha", "[a-zA-Z]");
+        g.add("num", "-?(\\.<digit>+|<digit>+(\\.<digit>+)?)", (b, l) => parseFloat(l));
+        
+        g.add("expr", " <add> ");
+        g.add("add", "(<sub> \\+)* <sub>", b => b.reduce((p, c) => p + c));
+        g.add("sub", "(<mul> -)* <mul>", b => b.reduce((p, c) => p - c));
+        g.add("mul", "(<div> \\*)* <div>", b => b.reduce((p, c) => p * c));
+        g.add("div", "(<neg> /)* <neg>", b => b.reduce((p, c) => p / c));
+        
+        g.add("neg-apply", "-<base>", b => -b[0]);
+        g.add("neg", "(<neg-apply>|<base>)");
+        
+        g.add("func-name", "<alpha>+(<alpha>|<digit>)*", (_, l) => l);
+        g.add("func", "<func-name>\\(<expr> (, <expr>)* \\)", b => Math[b[0].toLowerCase()].apply(Math, b.slice(1)));
+
+        g.add("base", "(\\(<expr>\\)|<num>|<func>)", b => b[0]);
+
+        const inpExprEl = document.getElementById("inp-expr");
+        const answerEl = document.getElementById("answer");
+
+        inpExprEl.oninput = () => 
+        {
+            try {
+                const result = g.scan("expr", inpExprEl.value);
+
+                if (result.isSuccess)
+                    answerEl.textContent = result.branches[0];
+                else
+                    answerEl.textContent = "Not a valid expression.";
+            } 
+            catch (e) {
+                answerEl.textContent = e.toString();
+            }
+        };
+
+        inpExprEl.focus();
+
+    </script>
+</body>
+</html>

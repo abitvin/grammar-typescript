@@ -1,0 +1,67 @@
+table.unit-tests {
+    border-collapse: collapse;
+    border-spacing: 0;
+    margin-bottom: 32px;
+}
+
+table.unit-tests td,
+table.unit-tests th {
+    border: 1px solid #eee;
+    padding: 3px 5px;
+}
+
+table.unit-tests > caption {
+    font-size: 1.5em;
+    text-align: left;
+}
+
+table.unit-tests > tbody > tr.failed > th.name {
+    color: red;
+}
+
+table.unit-tests > tbody > tr.running {
+    color: #888;
+}
+
+table.unit-tests > tbody > tr > td {
+    text-align: right;
+}
+
+table.unit-tests > tbody > tr > td.checks::before,
+table.unit-tests > tfoot > tr > td.checks::before {
+    content: attr(data-checks);
+    display: inline;
+}
+
+table.unit-tests > tbody > tr > td.failed:not([data-failed="0"]),
+table.unit-tests > tfoot > tr > td.failed:not([data-failed="0"]) {
+    color: red;
+}
+
+table.unit-tests > tbody > tr > td.failed::before,
+table.unit-tests > tfoot > tr > td.failed::before {
+    content: attr(data-failed);
+}
+
+table.unit-tests > tbody > tr > td.success::before,
+table.unit-tests > tfoot > tr > td.success::before {
+    content: attr(data-success);
+}
+
+table.unit-tests > tbody > tr > th {
+    font-weight: normal;
+    text-align: right;
+}
+
+table.unit-tests > thead > tr > th {
+    text-align: right;
+}
+
+table.unit-tests > tfoot > tr > td {
+    border-top: 2px solid #ccc;    
+}
+
+table.unit-tests > tfoot > tr > td,
+table.unit-tests > tfoot > tr > th {
+    text-align: right;
+}

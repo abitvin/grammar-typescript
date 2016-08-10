@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>INI Reader</title>
+    <style>
+        
+        #output,
+        textarea {
+            float: left;
+            height: 400px;
+            margin: 0 16px 16px 0;
+            width: 400px;
+            word-wrap: break-word;
+        }
+
+    </style>
+</head>
+<body>
+    <h1>INI Reader</h1>
+    <textarea id="inp-ini">; The first properties are set on the global scope.
+GfxPath=./Assets/Gfx/
+LevelsPath=./Assets/Levels/
+MusicPath=./Assets/Music/
+SoundsPath=./Assets/Sounds/
+
+; Create a scope with brackets.
+[KeyBindings]
+Confirm=Enter
+NavDown=Down
+NavLeft=Left
+NavRigth=Right
+NavUp=Up
+Cancel=Esc
+
+; You can create scopes with the dots between the names.
+[KeyBindings.Player]
+Shoot=Mouse0
+Jump=Mouse2
+RotateLeft=Left
+RotateRight=Right
+MoveForward=W
+MoveBackward=S
+StrafeLeft=A
+StrafeRight=D</textarea>
+    <div id="output"></div>
+    <script src="../../Extern/Rule.js"></script>
+    <script src="../../Source/Grammer.js"></script>
+    <script src="IniReader.js"></script>
+    <script>
+
+        var outputEl = document.getElementById("output");
+        var inputEl = document.getElementById("inp-ini");
+
+        function output(text)
+        {
+            var result = Abitvin.IniReader.read(text);
+            console.log(result);
+            outputEl.textContent = JSON.stringify(result);
+        }
+
+        inputEl.oninput = function() {
+            output(inputEl.value);    
+        }
+
+        output(inputEl.value);
+        
+    </script>
+</body>
+</html>

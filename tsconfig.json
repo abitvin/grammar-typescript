@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+        "sourceMap": true,
+        "target": "es6"
+    },
+    "files": [
+        "Examples/INI Reader/IniReader.ts",
+        "Examples/JSON Reader/JsonReader.ts",
+        "Extern/Rule.ts",
+        "Extern/Test.ts",
+        "Source/Grammer.ts",
+        "Tests/GrammerSyntax.ts",
+        "Tests/Misc.ts"
+    ]
+}
