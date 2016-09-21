@@ -6,6 +6,7 @@
     "files": [
         "Examples/INI Reader/IniReader.ts",
         "Examples/JSON Reader/JsonReader.ts",
+        "Examples/LML Reader/LmlReader.ts",
         "Extern/Rule.ts",
         "Extern/Test.ts",
         "Source/Grammer.ts",

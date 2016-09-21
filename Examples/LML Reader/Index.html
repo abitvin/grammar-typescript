@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>LML Reader</title>
+    <style>
+        
+        #output,
+        textarea {
+            float: left;
+            height: 400px;
+            margin: 0 16px 16px 0;
+            width: 400px;
+            word-wrap: break-word;
+        }
+        
+    </style>
+</head>
+<body>
+    <h1>LML Reader</h1>
+    <textarea id="inp-lml">I'm a line of text.
+And you can place enters.
+
+Or multiple enters, I don't care.
+
+first-node {
+    I'm text content part of the node named 'first-node'.
+
+    nested {
+        I'm a child node part of 'first-node' named 'nested'. 
+    }
+
+    nested {
+        I'm the second child node part of 'first-node' named 'nested'.
+    }
+
+    No the only type is string, you must parse the following nodes yourself to their appropriate type. 
+
+    boolean { true }
+    number { 1234 }
+
+    If you want to write curly brackets in your text content then write them like so:
+    {{ and }}
+} 
+
+And that's about it.
+
+See the parse results in the console of your browser.</textarea>
+    <div id="output"></div>
+    <script src="../../Extern/Rule.js"></script>
+    <script src="../../Source/Grammer.js"></script>
+    <script src="LmlReader.js"></script>
+    <script>
+
+        var outputEl = document.getElementById("output");
+        var inputEl = document.getElementById("inp-lml");
+
+        function output(text)
+        {
+            var result = Abitvin.LmlReader.read(text);
+            console.log(result);
+        }
+
+        inputEl.oninput = function() {
+            output(inputEl.value);    
+        }
+
+        inputEl.select();
+        inputEl.focus();
+
+        output(inputEl.value);
+
+    </script>
+</body>
+</html>
