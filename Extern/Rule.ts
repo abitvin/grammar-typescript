@@ -369,12 +369,12 @@ namespace Abitvin
             return v == null ? false : v.constructor === Array;
         }
         
-        private isInteger(v: any): v is Number
+        private isInteger(v: any): v is number
         {
             return this.isNumber(v) ? v % 1 === 0 : false;
         }
         
-        private isNumber(v: any): v is Number
+        private isNumber(v: any): v is number
         {
             return v == null ? false : v.constructor === Number;
         }

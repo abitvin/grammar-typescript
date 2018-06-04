@@ -3,7 +3,7 @@
 	"command": "tsc",
 	"showOutput": "silent",
 	"windows": {
-		"command": "C:/Program Files (x86)/Microsoft SDKs/TypeScript/1.8/tsc.exe"
+		"command": "C:/Program Files (x86)/Microsoft SDKs/TypeScript/2.8/tsc.exe"
 	},
 	"args": ["-p", "."],
 	"problemMatcher": "$tsc"
