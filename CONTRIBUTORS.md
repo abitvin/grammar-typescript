@@ -1,5 +1,5 @@
 Author<br>
-Vincent Van Ingen
+Vincent van Ingen
 
 Special thanks<br>
 Elian Ebbing
