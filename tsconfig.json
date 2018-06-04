@@ -9,8 +9,8 @@
         "Examples/LML Reader/LmlReader.ts",
         "Extern/Rule.ts",
         "Extern/Test.ts",
-        "Source/Grammer.ts",
-        "Tests/GrammerSyntax.ts",
+        "Source/Grammar.ts",
+        "Tests/GrammarSyntax.ts",
         "Tests/Misc.ts"
     ]
 }

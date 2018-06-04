@@ -1,12 +1,12 @@
 /// <reference path="../Extern/Test.ts"/>
-/// <reference path="../Source/Grammer.ts"/>
+/// <reference path="../Source/Grammar.ts"/>
 
 namespace Abitvin
 {
     new Test("Misc")
         .it("Calc", (assert, done) =>
         {
-            const g = new Grammer<number, void>();
+            const g = new Grammar<number, void>();
             g.declare("expr", "add", "mul");
             g.add("digit", "[0-9]");
             g.add("num", "<digit>+", (b, l) => parseFloat(l));

@@ -1,4 +1,4 @@
-///<reference path="../../Source/Grammer.ts"/>
+///<reference path="../../Source/Grammar.ts"/>
 
 namespace Abitvin
 {
@@ -17,16 +17,16 @@ namespace Abitvin
     export class IniReader
     {
         private static _currentScope: IIni;
-        private static _grammer: Grammer<IScanContext, void>;
+        private static _grammar: Grammar<IScanContext, void>;
         private static _ini: IIni;
         
         public static initialize(): void
         {
-            this._grammer = new Grammer<IScanContext, void>();
+            this._grammar = new Grammar<IScanContext, void>();
 
             // Comment
-            this._grammer.add("comment-char", "[^\r\n]");
-            this._grammer.add("comment", ";<comment-char>*");
+            this._grammar.add("comment-char", "[^\r\n]");
+            this._grammar.add("comment", ";<comment-char>*");
             
             // Property
             const propNameFn = (b, l) => [{ name: l }];
@@ -43,11 +43,11 @@ namespace Abitvin
                 return [];
             };
             
-            this._grammer.add("prop-name-char", "[^\\[\\]\r\n=]");
-            this._grammer.add("prop-name", "<prop-name-char>+", propNameFn);
-            this._grammer.add("prop-value-char", "[^\r\n]");
-            this._grammer.add("prop-value", "<prop-value-char>+", propValueFn);
-            this._grammer.add("prop", "<prop-name>=<prop-value>", propFn);
+            this._grammar.add("prop-name-char", "[^\\[\\]\r\n=]");
+            this._grammar.add("prop-name", "<prop-name-char>+", propNameFn);
+            this._grammar.add("prop-value-char", "[^\r\n]");
+            this._grammar.add("prop-value", "<prop-value-char>+", propValueFn);
+            this._grammar.add("prop", "<prop-name>=<prop-value>", propFn);
             
             // Section
             const sectionRootFn = (b, l) => { this._currentScope = this._ini; return []; };
@@ -61,30 +61,30 @@ namespace Abitvin
                 return [];
             };
             
-            this._grammer.add("section-char", "[^\\[\\]\r\n\\ \\.]");
-            this._grammer.add("section-scope", "<section-char>+", sectionScopeFn);
-            this._grammer.add("section-scope-loop", "\\.<section-scope>");
-            this._grammer.add("section-root", "\\[", sectionRootFn);
-            this._grammer.add("section", "<section-root><section-scope><section-scope-loop>*\\]");
+            this._grammar.add("section-char", "[^\\[\\]\r\n\\ \\.]");
+            this._grammar.add("section-scope", "<section-char>+", sectionScopeFn);
+            this._grammar.add("section-scope-loop", "\\.<section-scope>");
+            this._grammar.add("section-root", "\\[", sectionRootFn);
+            this._grammar.add("section", "<section-root><section-scope><section-scope-loop>*\\]");
             
             // Content
-            this._grammer.add("content", "(<comment>|<prop>|<section>)");
-            this._grammer.add("nl", "\r?\n");
-            this._grammer.add("line", " <content>?(<nl>|$)");
+            this._grammar.add("content", "(<comment>|<prop>|<section>)");
+            this._grammar.add("nl", "\r?\n");
+            this._grammar.add("line", " <content>?(<nl>|$)");
             
             // Root
-            this._grammer.add("root", "<line>*", () => [{ ini: this._ini }]);
+            this._grammar.add("root", "<line>*", () => [{ ini: this._ini }]);
         }
         
         public static read(input: string): IIni
         {
-            if (this._grammer == null)
+            if (this._grammar == null)
                 this.initialize();
             
             this._ini = {};
             this._currentScope = this._ini;
 
-            return this._grammer.scan("root", input).branches[0].ini;
+            return this._grammar.scan("root", input).branches[0].ini;
         }
     }
 }

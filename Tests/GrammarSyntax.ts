@@ -1,9 +1,9 @@
 /// <reference path="../Extern/Test.ts"/>
-/// <reference path="../Source/Grammer.ts"/>
+/// <reference path="../Source/Grammar.ts"/>
 
 namespace Abitvin
 {
-    new Test("Grammer syntax")
+    new Test("Grammar syntax")
         .it("Any char", (assert, done) =>
         {
             const code = "abcdefg";
@@ -13,7 +13,7 @@ namespace Abitvin
                 return [true, false, false, true];
             };
             
-            const g = new Grammer<boolean, void>();
+            const g = new Grammar<boolean, void>();
             g.add("any-char", ".......", fn);
             const result = g.scan("any-char", code); 
 
@@ -33,7 +33,7 @@ namespace Abitvin
                 return [0, 1, 2, 3];
             };
             
-            const g = new Grammer<number, void>();
+            const g = new Grammar<number, void>();
             g.add("all-except", "[^ABCD]");
             g.add("root", "<all-except>{3}", fn);
             
@@ -55,7 +55,7 @@ namespace Abitvin
                 return [111, 222];
             };
 
-            const g = new Grammer<number, void>();
+            const g = new Grammar<number, void>();
             g.add("alternations", "(~\\\\<,\\<|\\\\>,\\>|東,AAA|💝,BBB|中,CCC)");
             g.add("root", "<alternations>{7}", fn);
             
@@ -85,7 +85,7 @@ namespace Abitvin
                 return 333;
             };
             
-            const g = new Grammer<number, void>();
+            const g = new Grammar<number, void>();
             g.add("aaa", "aaa", aaaFn);
             g.add("bbb", "bbb", bbbFn);
             g.add("ccc", "ccc", cccFn);
@@ -104,7 +104,7 @@ namespace Abitvin
         {
             const code = "xxxx";
             
-            const g = new Grammer<number, void>();
+            const g = new Grammar<number, void>();
             g.add("x", "x", () => 10);
             g.add("at-least-3", "<x>{3,}");
             g.add("at-least-4", "<x>{4,}");
@@ -133,7 +133,7 @@ namespace Abitvin
         {
             const code = "yyy";
             
-            const g = new Grammer<number, void>();
+            const g = new Grammar<number, void>();
             g.add("y", "y", () => 14);
             g.add("at-most-2", "<y>{,2}");
             g.add("at-most-3", "<y>{,3}");
@@ -160,7 +160,7 @@ namespace Abitvin
         {
             const code = "zzz";
             
-            const g = new Grammer<number, void>();
+            const g = new Grammar<number, void>();
             g.add("z", "z", () => 34);
             g.add("between-1-and-3", "<z>{1,3}");
             g.add("between-0-and-10", "<z>{0,10}");
@@ -197,7 +197,7 @@ namespace Abitvin
                 return n;
             };
 
-            const g = new Grammer<number, void>();
+            const g = new Grammar<number, void>();
             g.add("digit", "[0-9]", (b, l) => l.charCodeAt(0) - 48);
             g.add("af", "[A-F]", (b, l) => l.charCodeAt(0) - 55);
             g.add("hex", "(<digit>|<af>)");
@@ -234,7 +234,7 @@ namespace Abitvin
         {
             const code = "123";
             
-            const g = new Grammer<string, void>();
+            const g = new Grammar<string, void>();
             g.add("root", "123$", () => ["A", "B"]);
 
             const result = g.scan("root", code);
@@ -247,7 +247,7 @@ namespace Abitvin
         {
             const code = "..........";
             
-            const g = new Grammer<string, void>();
+            const g = new Grammar<string, void>();
             g.add(".", ".", () => ".");
             g.add("x", "nope", () => "x");
             g.add("test-a", "<.>{10}");
@@ -282,7 +282,7 @@ namespace Abitvin
                 return [7777, 8888, 9999];
             };
 
-            const g = new Grammer<number, void>();
+            const g = new Grammar<number, void>();
             g.add("lit-a", "y̆y̆");
             g.add("lit-b", "y̆");
             g.add("lit-c", "x̆");
@@ -306,7 +306,7 @@ namespace Abitvin
                 "...xxx...",
             ];
             
-            const g = new Grammer<string, void>();
+            const g = new Grammar<string, void>();
             g.add("dots", "\\.\\.\\.");
             g.add("xxx", "xxx", () => "x");
             g.add("root", "<dots>?<xxx><dots>?");
@@ -322,7 +322,7 @@ namespace Abitvin
         })
         .it("None or many", (assert, done) =>
         {
-            const g = new Grammer<boolean, void>();
+            const g = new Grammar<boolean, void>();
             g.add("dot", "\\.", () => true);
             g.add("x", "x", () => false);
 
@@ -390,7 +390,7 @@ namespace Abitvin
         })
         .it("Not", (assert, done) =>
         {
-            const g = new Grammer<void, void>();
+            const g = new Grammar<void, void>();
             g.add("not-this", "not this");
             g.add("root", "aaa!<not-this>bbbccc");
 
@@ -406,7 +406,7 @@ namespace Abitvin
         {
             const code = "onetwothree";
             
-            const g = new Grammer<number, void>();
+            const g = new Grammar<number, void>();
             g.add("one", "one", () => 1);
             g.add("two", "two", () => 2);
             g.add("three", "three", () => 3);

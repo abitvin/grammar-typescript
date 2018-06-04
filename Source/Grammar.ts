@@ -36,9 +36,9 @@ namespace Abitvin
         rule: Rule<TBranch, TMeta>;
     }
     
-    export class Grammer<TBranch, TMeta> 
+    export class Grammar<TBranch, TMeta> 
     {
-        private _grammer: R<TBranch, TMeta>;
+        private _grammar: R<TBranch, TMeta>;
         private _rulexps: {[name: string]: IRule<TBranch, TMeta>};
         private _ws: Rule<TBranch, TMeta>;
         
@@ -468,11 +468,11 @@ namespace Abitvin
             ranges.anyOf(atLeast, atLeastOne, atMost, between, exact, maybe, noneOrMany);
             statement.maybe(not).anyOf(anyChar, noneOrManyWs, atLeastOneWs, eof, alter, allExcept, charRanges, rule, anyOf, literal);
             
-            this._grammer = new R<TBranch, TMeta>().noneOrMany(statement);
+            this._grammar = new R<TBranch, TMeta>().noneOrMany(statement);
             this._rulexps = {};
         }
         
-        public static get version(): string { return "0.3.0"; }
+        public static get version(): string { return "0.3.1"; }
         
         public add(id: string, expr: string, branchFn: BranchFn<TBranch> = null, meta: TMeta = null): void
         {
@@ -481,7 +481,7 @@ namespace Abitvin
             if (rulexp != null && rulexp.isDefined)
                 throw new Error(`The rule "${id}" already used.`);
             
-            const result = this._grammer.scan(expr);
+            const result = this._grammar.scan(expr);
                     
             // TODO Show nice errors.
             if (!result.isSuccess)
@@ -542,7 +542,7 @@ namespace Abitvin
         
         public ws(expr: string): void
         {
-            const result = this._grammer.scan(expr);
+            const result = this._grammar.scan(expr);
             
             // TODO Show nice errors.
             if (!result.isSuccess)

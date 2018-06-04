@@ -1,4 +1,4 @@
-///<reference path="../../Source/Grammer.ts"/>
+///<reference path="../../Source/Grammar.ts"/>
 
 namespace Abitvin
 {
@@ -11,7 +11,7 @@ namespace Abitvin
     
     export class LmlReader
     {
-        private static _grammer: Grammer<Lml, void>;
+        private static _grammar: Grammar<Lml, void>;
         
         public static initialize(): void
         {
@@ -47,28 +47,28 @@ namespace Abitvin
                 }
             };
 
-            this._grammer = new Grammer<Lml, void>();
-            this._grammer.ws("(\\ |\t|\n|\r)");
-            this._grammer.declare("branch", "branch-start");
-            this._grammer.add("escape-chars", "(~\\{\\{,\\{|\\}\\},\\})");
-            this._grammer.add("control-chars", "(\\ |\t|\n|\r|\\{|\\})");
-            this._grammer.add("char", "(<escape-chars>|!<control-chars>.)");
-            this._grammer.add("tag", "<char>+", tagFn);
-            this._grammer.add("word", "!<branch-start><char>+");
-            this._grammer.add("text", "<word>( <word>)*", textFn);
-            this._grammer.add("child", "(<text>|<branch>)");
-            this._grammer.add("children", "<child>( <child>)*");
-            this._grammer.add("branch-start", "<tag> \\{!(\\{)");
-            this._grammer.add("branch", "<branch-start> <children>? }", branchFn);
-            this._grammer.add("root", " <children>? ", branchFn);
+            this._grammar = new Grammar<Lml, void>();
+            this._grammar.ws("(\\ |\t|\n|\r)");
+            this._grammar.declare("branch", "branch-start");
+            this._grammar.add("escape-chars", "(~\\{\\{,\\{|\\}\\},\\})");
+            this._grammar.add("control-chars", "(\\ |\t|\n|\r|\\{|\\})");
+            this._grammar.add("char", "(<escape-chars>|!<control-chars>.)");
+            this._grammar.add("tag", "<char>+", tagFn);
+            this._grammar.add("word", "!<branch-start><char>+");
+            this._grammar.add("text", "<word>( <word>)*", textFn);
+            this._grammar.add("child", "(<text>|<branch>)");
+            this._grammar.add("children", "<child>( <child>)*");
+            this._grammar.add("branch-start", "<tag> \\{!(\\{)");
+            this._grammar.add("branch", "<branch-start> <children>? }", branchFn);
+            this._grammar.add("root", " <children>? ", branchFn);
         }
         
         public static read(input: string): RuleResult<Lml, void>
         {
-            if (this._grammer == null)
+            if (this._grammar == null)
                 this.initialize();
             
-            return this._grammer.scan("root", input);
+            return this._grammar.scan("root", input);
         }
     }
 }
